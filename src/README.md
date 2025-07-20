@@ -34,8 +34,8 @@ Follow the official [ROS2 Humble installation guide](https://docs.ros.org/en/hum
 ### Setup the Workspace
 1. Clone this repository:
     ```bash
-    git clone https://github.com/knmlprz/TrailblazerML.git
-    cd TrailblazerML
+    git clone https://github.com/knmlprz/ARGUS.git
+    cd ARGUS
     ```
 2. Install dependencies:
     ```bash
@@ -75,7 +75,7 @@ Follow the official [ROS2 Humble installation guide](https://docs.ros.org/en/hum
 ```
 2. Add meshes:
 ```bash
-  cp -r <Path_to_project>/TrailblazerML/src/gazebo_viz/meshes ./gazebo_viz
+  cp -r <Path_to_project>/ARGUS/src/gazebo_viz/meshes ./gazebo_viz
 ```
 
 ### Launching Simulation
