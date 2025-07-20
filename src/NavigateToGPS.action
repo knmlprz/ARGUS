@@ -1,0 +1,14 @@
+# Goal
+geographic_msgs/GeoPoint location
+
+---
+# Result
+bool success
+string message
+
+---
+# Feedback
+geographic_msgs/GeoPoint currentLocation
+float32 distanceToGoal
+float32 heading          
+builtin_interfaces/Duration timeRemaining

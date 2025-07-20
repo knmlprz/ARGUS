@@ -1,0 +1,7 @@
+<library path="lib/libnodelet_stereo">
+  <class name="trailblazer_cloud/StereoNodelet" type="trailblazer_cloud::StereoNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is stereo publishing nodelet.
+  </description>
+  </class>
+</library>

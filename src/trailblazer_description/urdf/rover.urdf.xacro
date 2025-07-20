@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<robot name="legendary_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- ******************************* XACRO ******************************* -->
+  <xacro:include filename="lidar.xacro" />
+  <xacro:include filename="imu.xacro" />
+  <xacro:include filename="gps.xacro" />
+
+  <xacro:arg name="use_ros2_control" default="True"/>
+  <xacro:arg name="sim_mode" default="false"/>
+  <xacro:if value="$(arg use_ros2_control)">
+    <xacro:include filename="ros2_control.xacro" />
+    <!-- ******************************* OAK-D START ******************************* -->
+    <!-- <xacro:arg name="camera_name" default="oak" />
+    <xacro:arg name="camera_model" default="OAK-D-PRO-W" />
+    <xacro:arg name="base_frame" default="oak-d_frame" />
+    <xacro:arg name="parent_frame" default="oak-d-base-frame" />
+    <xacro:arg name="cam_pos_x" default="-0.0475" />
+    <xacro:arg name="cam_pos_y" default="0.13" />
+    <xacro:arg name="cam_pos_z" default="0.4465" />
+    <xacro:arg name="cam_roll" default="0.0" />
+    <xacro:arg name="cam_pitch" default="-1.5708" />
+    <xacro:arg name="cam_yaw" default="-1.5708" />
+    <xacro:arg name="rs_compat" default="false" />
+
+    <xacro:include filename="$(find trailblazer_description)/urdf/include/depthai_macro.xacro" />
+
+    <link name="$(arg parent_frame)" />
+    <xacro:depthai_camera camera_name="$(arg camera_name)" parent="$(arg parent_frame)"
+      camera_model="$(arg camera_model)" base_frame="$(arg base_frame)"
+      cam_pos_x="$(arg cam_pos_x)" cam_pos_y="$(arg cam_pos_y)" cam_pos_z="$(arg cam_pos_z)"
+      cam_roll="$(arg cam_roll)" cam_pitch="$(arg cam_pitch)" cam_yaw="$(arg cam_yaw)"
+      rs_compat="$(arg rs_compat)" />
+      <joint name="oakd_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="oak-d-base-frame"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </joint>
+      -->
+
+    <!-- ******************************* OAK-D END ******************************* -->
+  </xacro:if>
+  <xacro:unless value="$(arg use_ros2_control)">
+    <xacro:include filename="depth_camera.xacro" />
+    <xacro:include filename="gazebo_control.xacro" />
+  </xacro:unless>
+  <!-- ******************************* Links ******************************* -->
+
+  <link name="base_link">
+  </link>
+
+  <joint name="chassis_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="chassis"/>
+      <origin xyz="0 0 0.365" rpy="1.5708 0 1.5708"/>
+  </joint>
+  <link
+    name="chassis">
+    <inertial>
+      <origin
+        xyz="0.00322150223165306 -0.0317835441688463 0.404226266"
+        rpy="0 0 0" />
+      <mass
+        value="13.9113253461594" />
+      <inertia
+        ixx="0.137500217365985"
+        ixy="-1.50640906549854E-05"
+        ixz="-4.20418177659327E-05"
+        iyy="0.158013840900767"
+        iyz="1.36293755133581E-06"
+        izz="0.0668521247692141" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="FL_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0657932903439138 0.00142869200681425 9.9374601122415E-06"
+        rpy="0 0 0" />
+      <mass
+        value="1.6444086136415" />
+      <inertia
+        ixx="0.0139876753457463"
+        ixy="-0.000132035977836167"
+        ixz="3.15709065074939E-08"
+        iyy="0.00769928738544249"
+        iyz="7.8978424094368E-07"
+        izz="0.0076927565336923" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/FL_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/FL_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="FL_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.578691303668632 -0.237965989839832 0.501750000756599"
+      rpy="0 0 0" />
+    <parent
+      link="chassis" />
+    <child
+      link="FL_wheel" />
+    <axis
+      xyz="0.999779852268619 -0.0209820637149624 0" />
+  </joint>
+
+  <link
+    name="BL_wheel">
+    <inertial>
+      <origin
+        xyz="-0.0657953215031118 0.00133190879616998 -1.102290957955E-06"
+        rpy="0 0 0" />
+      <mass
+        value="1.64440861363231" />
+      <inertia
+        ixx="0.0139876757533367"
+        ixy="-0.000132024644816703"
+        ixz="-1.42789492436747E-08"
+        iyy="0.00769944516583351"
+        iyz="6.94182413139629E-08"
+        izz="0.00769259835014326" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/BL_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/BL_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BL_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.578691303668647 -0.237965989839099 -0.401750000000183"
+      rpy="0 0 0" />
+    <parent
+      link="chassis" />
+    <child
+      link="BL_wheel" />
+    <axis
+      xyz="0.999779852268619 -0.0209820637149624 0" />
+  </joint>
+  <link
+    name="FR_wheel">
+    <inertial>
+      <origin
+        xyz="0.0657913230041458 0.0013308416445233 8.05670440151562E-06"
+        rpy="0 0 0" />
+      <mass
+        value="1.64440861363838" />
+      <inertia
+        ixx="0.0139876756245162"
+        ixy="0.000132029029633682"
+        ixz="1.32421956480498E-09"
+        iyy="0.00769931570657865"
+        iyz="-6.97714576728623E-07"
+        izz="0.00769272793356072" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/FR_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/FR_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="FR_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.578691303668549 -0.237965989839575 0.50175"
+      rpy="0 0 0" />
+    <parent
+      link="chassis" />
+    <child
+      link="FR_wheel" />
+    <axis
+      xyz="0.999779852268619 -0.0209820637149687 0" />
+  </joint>
+  <link
+    name="BR_wheel">
+    <inertial>
+      <origin
+        xyz="0.0657913365617738 0.00133019561822817 -1.39445307800745E-07"
+        rpy="0 0 0" />
+      <mass
+        value="1.64440861363467" />
+      <inertia
+        ixx="0.013987675587488"
+        ixy="0.00013202862171795"
+        ixz="-1.22366605858997E-08"
+        iyy="0.00769943862075944"
+        iyz="-5.04460531278865E-08"
+        izz="0.00769260505729232" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/BR_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://trailblazer_description/meshes/BR_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="BR_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.578691303668548 -0.237965989839575 -0.401750000756777"
+      rpy="0 0 0" />
+    <parent
+      link="chassis" />
+    <child
+      link="BR_wheel" />
+    <axis
+      xyz="0.999779852268619 -0.0209820637149688 0" />
+  </joint>
+</robot>
