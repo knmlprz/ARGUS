@@ -1,0 +1,9 @@
+<library path="trailblazer_controller">
+  <class name="trailblazer_controller/trailblazerSystem"
+         type="trailblazer_controller::trailblazerSystem"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface for trailblazer robot
+    </description>
+  </class>
+</library>
